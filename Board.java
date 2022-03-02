@@ -79,7 +79,18 @@ public class Board {
 
     // does this board equal y?
     public boolean equals(Object y) {
-        return this == y;
+        if (y == null) {
+            return false;
+        }
+        if (y.getClass() != this.getClass()) {
+            return false;
+        }
+        Board b = (Board) y;
+        if (this.dimension() != b.dimension()) {
+            return false;
+        }
+
+        return this.toString().equals(b.toString());
     }
 
     // all neighboring boards
@@ -100,10 +111,19 @@ public class Board {
                 { 4, 0, 2 },
                 { 7, 6, 5 }
         };
+        int[][] arr3 = {
+                { 8, 3, 1 },
+                { 4, 0, 2 },
+                { 7, 6, 5 }
+        };
         Board board = new Board(arr);
+        Board board2 = new Board(arr);
+        Board board3 = new Board(arr3);
         System.out.println(board);
         System.out.println(board.hamming());
         System.out.println(board.manhattan());
+        System.out.println(board.equals(board2));
+        System.out.println(board.equals(board3));
 
     }
 
