@@ -3,15 +3,16 @@ import java.util.List;
 
 public class Board {
     private int[][] tiles;
+    private int length;
 
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col)
     public Board(int[][] tiles) {
-        int length = tiles.length;
-        this.tiles = new int[length][tiles[0].length];
+        length = tiles.length;
+        this.tiles = new int[length][length];
 
-        for (int i = 0; i < tiles.length; i++) {
-            for (int j = 0; j < tiles[i].length; j++) {
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
                 this.tiles[i][j] = tiles[i][j];
             }
         }
@@ -20,7 +21,7 @@ public class Board {
     // string representation of this board
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.tiles[0].length).append('\n');
+        sb.append(length).append('\n');
         for (int[] s1 : tiles) {
             sb.append(" ");
             for (int s2 : s1) {
@@ -34,17 +35,41 @@ public class Board {
 
     // board dimension n
     public int dimension() {
-        return 1;
+        return length;
     }
 
     // number of tiles out of place
     public int hamming() {
-        return 1;
+        int count = 0;
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                if (i == length - 1 && j == length - 1) {
+                    break;
+                }
+                int expected = i * length + j + 1;
+                if (expected != tiles[i][j]) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 
     // sum of Manhattan distances between tiles and goal
     public int manhattan() {
-        return 1;
+        int total = 0;
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                if (tiles[i][j] == 0) {
+                    continue;
+                }
+                int diffI = Math.abs(tiles[i][j] / length - i);
+                int diffJ = Math.abs((tiles[i][j] - 1) % length - j);
+                total = total + diffI + diffJ;
+
+            }
+        }
+        return total;
     }
 
     // is this board the goal board?
@@ -71,12 +96,14 @@ public class Board {
 
     public static void main(String[] args) {
         int[][] arr = {
-                { 1, 0, 3 },
-                { 4, 2, 5 },
-                { 7, 8, 6 }
+                { 8, 1, 3 },
+                { 4, 0, 2 },
+                { 7, 6, 5 }
         };
         Board board = new Board(arr);
         System.out.println(board);
+        System.out.println(board.hamming());
+        System.out.println(board.manhattan());
 
     }
 
