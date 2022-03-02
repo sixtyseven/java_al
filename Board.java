@@ -7,7 +7,14 @@ public class Board {
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col)
     public Board(int[][] tiles) {
-        this.tiles = tiles;
+        int length = tiles.length;
+        this.tiles = new int[length][tiles[0].length];
+
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles[i].length; j++) {
+                this.tiles[i][j] = tiles[i][j];
+            }
+        }
     }
 
     // string representation of this board
@@ -64,12 +71,14 @@ public class Board {
 
     public static void main(String[] args) {
         int[][] arr = {
-                { 1, 2, 3 },
-                { 4, 5, 6 },
-                { 7, 8, 0 }
+                { 1, 0, 3 },
+                { 4, 2, 5 },
+                { 7, 8, 6 }
         };
         Board board = new Board(arr);
         System.out.println(board);
 
     }
+
+
 }
