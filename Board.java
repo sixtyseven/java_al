@@ -10,8 +10,6 @@ public class Board {
     public Board(int[][] tiles) {
         length = tiles.length;
         this.tiles = clone2DArray(tiles, length);
-
-
     }
 
     private int[][] clone2DArray(int[][] arr, int len) {
@@ -102,7 +100,7 @@ public class Board {
     // all neighboring boards
     public Iterable<Board> neighbors() {
         List<Board> list = new ArrayList<>();
-        int x, y;
+        int x = 0, y = 0;
         outerloop:
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
@@ -114,16 +112,32 @@ public class Board {
             }
         }
 
-
-        for (int i = 0; i < length; i++) {
-            for (int j = 0; j < length; j++) {
-                if (tiles[i][j] == 0) {
-                    x = i;
-                    y = j;
-                }
-            }
+        if (x > 0) {
+            int[][] n1 = clone2DArray(this.tiles, length);
+            n1[x][y] = n1[x - 1][y];
+            n1[x - 1][y] = 0;
+            list.add(new Board(n1));
         }
-        // Board b = new Board();
+        if (y > 0) {
+            int[][] n1 = clone2DArray(this.tiles, length);
+            n1[x][y] = n1[x][y - 1];
+            n1[x][y - 1] = 0;
+            list.add(new Board(n1));
+        }
+        if (x < length - 1) {
+            int[][] n1 = clone2DArray(this.tiles, length);
+            n1[x][y] = n1[x + 1][y];
+            n1[x + 1][y] = 0;
+            list.add(new Board(n1));
+        }
+        if (y < length - 1) {
+            int[][] n1 = clone2DArray(this.tiles, length);
+            n1[x][y] = n1[x][y + 1];
+            n1[x][y + 1] = 0;
+            list.add(new Board(n1));
+        }
+
+
         return list;
     }
 
@@ -151,6 +165,7 @@ public class Board {
         System.out.println(board.manhattan());
         System.out.println(board.equals(board2));
         System.out.println(board.equals(board3));
+        System.out.println(board.neighbors());
 
     }
 
