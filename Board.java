@@ -9,13 +9,19 @@ public class Board {
     // where tiles[row][col] = tile at (row, col)
     public Board(int[][] tiles) {
         length = tiles.length;
-        this.tiles = new int[length][length];
+        this.tiles = clone2DArray(tiles, length);
 
-        for (int i = 0; i < length; i++) {
-            for (int j = 0; j < length; j++) {
-                this.tiles[i][j] = tiles[i][j];
+
+    }
+
+    private int[][] clone2DArray(int[][] arr, int len) {
+        int[][] arrCopy = new int[len][len];
+        for (int i = 0; i < len; i++) {
+            for (int j = 0; j < len; j++) {
+                arrCopy[i][j] = arr[i][j];
             }
         }
+        return arrCopy;
     }
 
     // string representation of this board
@@ -107,6 +113,17 @@ public class Board {
                 }
             }
         }
+
+
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                if (tiles[i][j] == 0) {
+                    x = i;
+                    y = j;
+                }
+            }
+        }
+        // Board b = new Board();
         return list;
     }
 
