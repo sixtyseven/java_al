@@ -74,7 +74,7 @@ public class Board {
 
     // is this board the goal board?
     public boolean isGoal() {
-        return true;
+        return hamming() == 0;
     }
 
     // does this board equal y?
@@ -96,7 +96,17 @@ public class Board {
     // all neighboring boards
     public Iterable<Board> neighbors() {
         List<Board> list = new ArrayList<>();
-
+        int x, y;
+        outerloop:
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                if (tiles[i][j] == 0) {
+                    x = i;
+                    y = j;
+                    break outerloop;
+                }
+            }
+        }
         return list;
     }
 
