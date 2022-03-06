@@ -1,2 +1,5 @@
 .idea
 .lift
+.DS_Store
+*.class
+*.zip
