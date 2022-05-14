@@ -12,14 +12,15 @@ public class PercolationStats {
         if (n <= 0 || trials <= 0) {
             throw new IllegalArgumentException();
         }
+        final double CONFIDENCE_95 = 1.96;
         double[] fractions = new double[trials];
         for (int i = 0; i < trials; i++) {
             fractions[i] = opendSitesInTrial(n) * 1.0 / n / n;
         }
         meanVal = StdStats.mean(fractions);
         stddev = StdStats.stddev(fractions);
-        confidenceLo = meanVal - (1.96 * stddev) / Math.sqrt(trials);
-        confidenceHi = meanVal + (1.96 * stddev) / Math.sqrt(trials);
+        confidenceLo = meanVal - (CONFIDENCE_95 * stddev) / Math.sqrt(trials);
+        confidenceHi = meanVal + (CONFIDENCE_95 * stddev) / Math.sqrt(trials);
 
     }
 
