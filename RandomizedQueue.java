@@ -1,6 +1,7 @@
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
@@ -10,7 +11,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // construct an empty randomized queue
     public RandomizedQueue() {
-        // casting
+        // create an array of Object (length = 1) and casting
         itemArr = (Item[]) new Object[1];
     }
 
@@ -63,9 +64,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private void resize(int capacity) {
         Item[] copy = (Item[]) new Object[capacity];
-        for (int i = 0; i < count; i++) {
-            copy[i] = itemArr[i];
-        }
+        if (count >= 0) System.arraycopy(itemArr, 0, copy, 0, count);
         itemArr = copy;
     }
 
@@ -75,12 +74,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private class ListIterator implements Iterator<Item> {
-        private int numOfItemsLeft = count;
+        private int numOfItemsLeft;
 
         // construct an empty randomized queue
         public ListIterator() {
-            // casting
             StdRandom.shuffle(itemArr);
+            numOfItemsLeft = count;
         }
 
         public boolean hasNext() {
@@ -93,6 +92,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         public Item next() {
+            if (numOfItemsLeft == 0) {
+                throw new NoSuchElementException();
+            }
             return itemArr[--numOfItemsLeft];
         }
     }
