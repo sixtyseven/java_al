@@ -1,3 +1,4 @@
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
@@ -41,13 +42,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // remove and return a random item
     public Item dequeue() {
         if (isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new NoSuchElementException();
         }
         int idx = StdRandom.uniform(count);
         Item itemToRemote = itemArr[idx];
-        itemArr[idx] = itemArr[count - 1];
-        itemArr[count--] = null;
-        if (count == itemArr.length / 4) {
+        itemArr[idx] = itemArr[--count];
+        itemArr[count] = null;
+        if (count == itemArr.length / 4.0) {
             resize(itemArr.length / 2);
         }
         return itemToRemote;
@@ -56,7 +57,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // return a random item (but do not remove it)
     public Item sample() {
         if (isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new NoSuchElementException();
         }
         int idx = StdRandom.uniform(count);
         return itemArr[idx];
@@ -75,10 +76,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private class ListIterator implements Iterator<Item> {
         private int numOfItemsLeft;
+        Item[] arr;
 
         // construct an empty randomized queue
         public ListIterator() {
-            StdRandom.shuffle(itemArr);
+            arr = (Item[]) new Object[count];
+            System.arraycopy(itemArr, 0, arr, 0, count);
+
+            StdRandom.shuffle(arr);
             numOfItemsLeft = count;
         }
 
@@ -95,12 +100,31 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             if (numOfItemsLeft == 0) {
                 throw new NoSuchElementException();
             }
-            return itemArr[--numOfItemsLeft];
+            int idx = --numOfItemsLeft;
+            return arr[idx];
         }
     }
 
     // unit testing (required)
     public static void main(String[] args) {
+        RandomizedQueue<Integer> queue = new RandomizedQueue<>();
+
+
+        queue.enqueue(1);
+        queue.enqueue(2);
+        queue.enqueue(3);
+        queue.enqueue(4);
+        Iterator<Integer> iterator1 = queue.iterator();
+//        Iterator<Integer> iterator2 = queue.iterator();
+        StdOut.println("[debug] ");
+        while (iterator1.hasNext()) {
+            StdOut.print("q: ");
+            int q = iterator1.next();
+            StdOut.println(q);
+            StdOut.print("q2: ");
+//            StdOut.println(q2);
+        }
+
 
     }
 

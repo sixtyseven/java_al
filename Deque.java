@@ -38,6 +38,7 @@ public class Deque<Item> implements Iterable<Item> {
         if (item == null) {
             throw new IllegalArgumentException();
         }
+        count++;
         Node oldFirst = first;
 
         first = new Node();
@@ -49,8 +50,9 @@ public class Deque<Item> implements Iterable<Item> {
         }
         if (count == 1) {
             last = first;
+        } else if (count == 2) {
+            last = oldFirst;
         }
-        count++;
     }
 
     // remove and return the item from the front
@@ -80,6 +82,7 @@ public class Deque<Item> implements Iterable<Item> {
         if (item == null) {
             throw new IllegalArgumentException();
         }
+        count++;
         Node oldLast = last;
         last = new Node();
         last.item = item;
@@ -92,9 +95,10 @@ public class Deque<Item> implements Iterable<Item> {
 
         if (count == 1) {
             first = last;
+        } else if (count == 2) {
+            first = oldLast;
         }
 
-        count++;
     }
 
 
@@ -104,8 +108,9 @@ public class Deque<Item> implements Iterable<Item> {
             throw new NoSuchElementException();
         }
 
-        Item oldLastItem = last.item;
         --count;
+        Item oldLastItem = last.item;
+
         if (count == 0) {
             first = null;
             last = null;
@@ -152,11 +157,17 @@ public class Deque<Item> implements Iterable<Item> {
     public static void main(String[] args) {
         Deque<Integer> deque = new Deque<>();
         deque.addFirst(1);
-        boolean res = deque.isEmpty();
-        StdOut.println(res);
-        deque.removeFirst();
-        boolean res2 = deque.isEmpty();
-        StdOut.println(res2);
+        deque.removeFirst();//     ==> 1
+        deque.isEmpty();//         ==> true
+        deque.addFirst(4);
+        deque.addFirst(5);
+        deque.addFirst(6);
+        deque.removeFirst();   //  ==> 6
+        deque.removeFirst();  //   ==> 5
+        int t = deque.removeFirst();//     ==> 5
+
+        StdOut.println("[result] 2: ");
+        StdOut.println(t);
     }
 
 }
