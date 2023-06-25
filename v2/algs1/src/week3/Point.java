@@ -64,17 +64,18 @@ public class Point implements Comparable<Point> {
         if (that.y == this.y && that.x == this.x) {
             return Double.NEGATIVE_INFINITY;
         }
-        // Treat the slope of a horizontal line segment as positive zero
-        if (that.x == this.x) {
-            return +1;
+
+        //    * +0.0 if the line segment connecting the two points is horizontal;
+        if (that.y == this.y) {
+            return +0;
         }
 
-        // Treat the slope of a horizontal line segment as positive zero;
+        //     * Double.POSITIVE_INFINITY if the line segment is vertical;
         if (that.x == this.x) {
             return Double.POSITIVE_INFINITY;
         }
 
-        double res = (that.y - this.y) * 1.0 / (that.x - this.x);
+        double res = (that.y - this.y) / ((that.x - this.x) * 1.0);
         return res;
     }
 
